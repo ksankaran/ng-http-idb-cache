@@ -1,5 +1,27 @@
 # ng-http-idb-cache
 
 The $http in angularJS uses templateCache to serve the files via the browser cache mechanism. How can we leverage the $http call and use indexedDB
-  to get file/data across pages? This is a library to do that. For the demo purposes, simpleIDB takes care of indexedDB operations. Of course, changing it
-  to flexible storage layer or a different indexedDB library is easy.
+  to get file/data across pages? The answer is, ng-http-idb-cache library.
+  
+ng-http-idb-cache used [angular-indexedDB](https://github.com/bramski/angular-indexedDB) to store values in and out of IndexedDB. If you do not want such a big library, I have provided a simplistic simple-idb.js factory to help access indexedDB.
+
+Steps to use it
+
+
+	// Load the file
+	<script src="ng-http-idb-cache.js"></script>
+	
+	// Include the ng-http-idb-cache module as dependency
+	angular.module('yourapp', ['ng-http-idb-cache']).....
+	
+	// Now on, all your template gets cached in indexedDB 
+	// Either through $http.get
+	$http.get('template.html').success(function(htmlContents) {
+		$log.debug("Contents: ", htmlContents);
+	});
+	
+	// OR through ng-include
+	<div ng-include="'template.html'"></div>
+	
+	// Be default, it is cached for one minute. To override, just include this line before loading the script.
+	window.tplExpirationTime = 5; // in minutes
